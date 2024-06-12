@@ -18,12 +18,12 @@ type Message struct {
 	userId   int64  //发送者
 	TargetId int64  //接收者
 	Type     int    //消息类型 1私聊 2群聊 3广播
-	Media    int    //消息类型 1文字 2表情包 3图片 4音频
+	Media    int    //消息类型 1文字 2表情包 3音频 4图
 	Context  string //消息内容
 	Pic      string
 	Url      string
 	Desc     string
-	Amount   string //其他数字统计
+	Amount   int //其他数字统计
 }
 
 func (table *Message) TableName() string {

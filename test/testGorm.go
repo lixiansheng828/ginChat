@@ -12,13 +12,9 @@ func main() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.AutoMigrate(&models.UserBasic{})
+	db.AutoMigrate(&models.Community{})
+	// db.AutoMigrate(&models.UserBasic{})
 	// db.AutoMigrate(&models.Message{})
 	// db.AutoMigrate(&models.GroupBasic{})
 	// db.AutoMigrate(&models.Contact{})
-	user := &models.UserBasic{}
-	user.Name = "shen"
-	db.Create(user)
-
-	db.Model(user).Update("Password", 1234)
 }

@@ -38,7 +38,7 @@ func FindUserByNameAndPwd(c *gin.Context) {
 	name := c.Request.FormValue("name")
 	ver_password := c.Request.FormValue("password")
 	user := models.FindUserByName(name)
-	fmt.Println(ver_password, user.Password)
+	fmt.Println("passwd: ", name, user)
 	if user.Name == "" {
 		c.JSON(200, gin.H{
 			"code":    -1,
@@ -229,4 +229,33 @@ func MsgHandler(ws *websocket.Conn, c *gin.Context) {
 func SendUserMsg(c *gin.Context) {
 	models.Chat(c.Writer, c.Request)
 
+}
+
+// 添加好友
+func AddFriend(c *gin.Context) {
+	userId, _ := strconv.Atoi(c.Request.FormValue("userId"))
+	targetId, _ := strconv.Atoi(c.Request.FormValue("targetId"))
+	fmt.Println(userId, targetId)
+	code, message := models.AddFriend(uint(userId), uint(targetId))
+	if code == 0 {
+		utils.ResOK(c.Writer, code, message)
+	} else {
+		utils.ResFail(c.Writer, message)
+	}
+}
+
+// 创建群
+func CreateCommunity(c *gin.Context) {
+	ownerId, _ := strconv.Atoi(c.Request.FormValue("ownerId"))
+	name := c.Request.FormValue("Name")
+	community := models.Community{
+		OwnerId: uint(ownerId),
+		Name:    name,
+	}
+	code, message := models.CreateCommunity(community)
+	if code == 0 {
+		utils.ResOK(c.Writer, code, message)
+	} else {
+		utils.ResFail(c.Writer, message)
+	}
 }
